@@ -22,6 +22,10 @@ CPU::CPU(Memory& memory) : memory(memory) {
 
 	// Don't really know how to test this nes CPU so I'm just going to compare
 	// the output with the log of a working emulator
+	
+	// This isn't a full while loop at the moment, I'm just trying to compare
+	// lines of code from my emulator's log to the log of a well-known working
+	// emulator to debug the CPU before going any further.
 	for (int i = 0; i < 3350; i++) {
 		cpu_cycles += loop_cycles;
 		if (cpu_cycles > 341) cpu_cycles -= 341;
@@ -34,6 +38,9 @@ CPU::CPU(Memory& memory) : memory(memory) {
 		
 		// Execute the opcode (switch case)
 		execute_opcode(opcode);
+		// Reset loop cycles back to zero so that it does not interfere with the
+		// next executed opcode
+		loop_cycles = 0;
 	}
 }
 
@@ -41,7 +48,6 @@ CPU::~CPU() {
 	
 }
 
-// Mostly just convieniant CPU hardware operations
 u8 CPU::get_byte_from_pc() {
 	u8 result = memory.readByte(regPC.value());
 	regPC.increment();

@@ -59,14 +59,14 @@ private:
 	void stack_push(u8 byte);
 
 	// Addressing modes
-	u8 zero_page();
-	u8 zero_page_x();
-	u8 zero_page_y();
-	u16 pre_indexed_indirect();
-	u16 post_indexed_indirect();
-	u16 absolute();
-	u16 absolute_x();
-	u16 absolute_y();
+	u8 zero_page(unsigned int cycles);
+	u8 zero_page_x(unsigned int cycles);
+	u8 zero_page_y(unsigned int cycles);
+	u16 pre_indexed_indirect(unsigned int cycles);
+	u16 post_indexed_indirect(unsigned int cycles);
+	u16 absolute(unsigned int cycles);
+	u16 absolute_x(unsigned int cycles);
+	u16 absolute_y(unsigned int cycles);
 
 	// Utilities
 	void set_flags_nz(u8 value);

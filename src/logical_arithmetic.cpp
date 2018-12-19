@@ -7,6 +7,9 @@ void CPU::ORA(u8 byte) {
 	set_flags_nz(regA.value());
 }
 
+// TODO: Add cycles to each opcode by entering the value
+//       into the address mode function.
+
 void CPU::ORA_09() { ORA(get_byte_from_pc()); }
 void CPU::ORA_05() { ORA(memory.readByte(zero_page())); }
 void CPU::ORA_15() { ORA(memory.readByte(zero_page_x())); }
