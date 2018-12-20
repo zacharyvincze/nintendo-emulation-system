@@ -97,6 +97,9 @@ private:
 	void LDY(u8 byte);
 	void STY(u16 memory_address);
 
+	// BRANCH COMMANDS
+	void branch(bool condition);
+
 	// Note: Any missing general opcodes don't have enough unique addressing
 	// modes to constitute a general function declaration.
 
