@@ -86,6 +86,8 @@ void CPU::RTS_60() {	// Implied
 
 	u16 return_address = (upper_byte << 8) | lower_byte;
 	regPC.set(return_address + 1);
+
+	loop_cycles += 6;
 }
 
 void CPU::JMP_4C() {	// Absolute
