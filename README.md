@@ -1,3 +1,3 @@
-# NES EMU
+# Nintendo Emulation System (NES)
 
-This is an extremely limited NES emulator at the moment (Only able to emulate the cpu without any cycles so far). This git is being created mainly for version control as new features are added.
+An extremely limited NES emulator at the moment.  Currently, this is being used to emulate the NES' CPU.  The PPU will be developed once the CPU emulator has been tested, debugged, and checked for accuracy with other NES emulators.
