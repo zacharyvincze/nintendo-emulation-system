@@ -15,10 +15,22 @@ void CPU::LDA_A9() { LDA(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::LDA_A5() { LDA(memory.readByte(zero_page(3))); }
 void CPU::LDA_B5() { LDA(memory.readByte(zero_page_x(4))); }
 void CPU::LDA_A1() { LDA(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::LDA_B1() { LDA(memory.readByte(post_indexed_indirect(5))); }
+void CPU::LDA_B1() { 
+	u16 before_page = 0xFF00 & regPC.value();
+	LDA(memory.readByte(post_indexed_indirect(5))); 
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::LDA_AD() { LDA(memory.readByte(absolute(4))); }
-void CPU::LDA_BD() { LDA(memory.readByte(absolute_x(4))); }
-void CPU::LDA_B9() { LDA(memory.readByte(absolute_y(4))); }
+void CPU::LDA_BD() { 
+	u16 before_page = 0xFF00 & regPC.value();
+	LDA(memory.readByte(absolute_x(4))); 
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::LDA_B9() { 
+	u16 before_page = 0xFF00 & regPC.value();
+	LDA(memory.readByte(absolute_y(4))); 
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // STA FUNCTIONS (MOVES ACCUMULATOR VALUE INTO MEMORY)
 void CPU::STA(u16 memory_address) {
@@ -44,7 +56,11 @@ void CPU::LDX_A2() { LDX(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::LDX_A6() { LDX(memory.readByte(zero_page(3))); }
 void CPU::LDX_B6() { LDX(memory.readByte(zero_page_y(4))); }
 void CPU::LDX_AE() { LDX(memory.readByte(absolute(4))); }
-void CPU::LDX_BE() { LDX(memory.readByte(absolute_y(4))); }
+void CPU::LDX_BE() {
+	u16 before_page = 0xFF00 & regPC.value();
+	LDX(memory.readByte(absolute_y(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // STX (MOVES X REGISTER INTO MEMORY)
 
@@ -67,7 +83,11 @@ void CPU::LDY_A0() { LDY(get_byte_from_pc()); loop_cycles += 2;}
 void CPU::LDY_A4() { LDY(memory.readByte(zero_page(3))); }
 void CPU::LDY_B4() { LDY(memory.readByte(zero_page_x(4))); }
 void CPU::LDY_AC() { LDY(memory.readByte(absolute(4))); }
-void CPU::LDY_BC() { LDY(memory.readByte(absolute_x(4))); }
+void CPU::LDY_BC() {
+	u16 before_page = 0xFF00 & regPC.value();
+	LDY(memory.readByte(absolute_x(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // STY (MOVES Y REGISTER VALUE INTO MEMORY)
 

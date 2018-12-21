@@ -26,8 +26,7 @@ CPU::CPU(Memory& memory) : memory(memory) {
 	// This isn't a full while loop at the moment, I'm just trying to compare
 	// lines of code from my emulator's log to the log of a well-known working
 	// emulator to debug the CPU before going any further.
-	for (int i = 0; i < 3350; i++) {
-		cpu_cycles += loop_cycles;
+	for (int i = 0; i < 3200; i++) {
 		if (cpu_cycles > 341) cpu_cycles -= 341;
 		u16 current_pc = regPC.value();
 		u8 opcode = get_byte_from_pc();
@@ -38,6 +37,9 @@ CPU::CPU(Memory& memory) : memory(memory) {
 		
 		// Execute the opcode (switch case)
 		execute_opcode(opcode);
+		// Multiply loop_cycles by three because 1 ppu cycle is equal to
+		// 3 cpu cycles
+		cpu_cycles += loop_cycles*3;
 		// Reset loop cycles back to zero so that it does not interfere with the
 		// next executed opcode
 		loop_cycles = 0;

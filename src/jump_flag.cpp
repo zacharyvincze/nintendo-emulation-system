@@ -8,12 +8,12 @@
 // Branch cycles, default to 2 cycles, add 1 cycles if the branch
 // succeeds, add another 2 cycles if a page is crossed during the branch
 void CPU::branch(bool condition) {
-	u16 before_page = 0xFF00 & regPC.value();
 	// Default to 2 cycles
 	loop_cycles += 2;
 	
 	if (condition) {
 		r8 byte = get_signed_byte_from_pc();
+		u16 before_page = 0xFF00 & regPC.value();
 		regPC.set(regPC.value() + byte);
 		// Add one cycle since the branch was successful
 		loop_cycles += 1;
@@ -22,7 +22,6 @@ void CPU::branch(bool condition) {
 		if (before_page != (0xFF00 & regPC.value()))
 			loop_cycles += 2;
 	} else {
-		regPC.increment();
 		regPC.increment();
 	}
 }

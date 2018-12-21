@@ -7,17 +7,26 @@ void CPU::ORA(u8 byte) {
 	set_flags_nz(regA.value());
 }
 
-// TODO: Add cycles to each opcode by entering the value
-//       into the address mode function.
-
 void CPU::ORA_09() { ORA(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::ORA_05() { ORA(memory.readByte(zero_page(3))); }
 void CPU::ORA_15() { ORA(memory.readByte(zero_page_x(4))); }
 void CPU::ORA_01() { ORA(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::ORA_11() { ORA(memory.readByte(post_indexed_indirect(5))); }	// Page cross
+void CPU::ORA_11() {
+	u16 before_page = 0xFF00 & regPC.value();
+	ORA(memory.readByte(post_indexed_indirect(5)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::ORA_0D() { ORA(memory.readByte(absolute(4))); }
-void CPU::ORA_1D() { ORA(memory.readByte(absolute_x(4))); }	// Page cross
-void CPU::ORA_19() { ORA(memory.readByte(absolute_y(4))); }	// Page cross
+void CPU::ORA_1D() {
+	u16 before_page = 0xFF00 & regPC.value();
+	ORA(memory.readByte(absolute_x(4))); 
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::ORA_19() {
+	u16 before_page = 0xFF00 & regPC.value();
+	ORA(memory.readByte(absolute_y(4))); 
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // AND (AND FUNCTION ON ACCUMULATOR)
 void CPU::AND(u8 byte) {
@@ -29,10 +38,22 @@ void CPU::AND_29() { AND(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::AND_25() { AND(memory.readByte(zero_page(3))); }
 void CPU::AND_35() { AND(memory.readByte(zero_page_x(4))); }
 void CPU::AND_21() { AND(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::AND_31() { AND(memory.readByte(post_indexed_indirect(5))); }	// Page cross
+void CPU::AND_31() {
+	u16 before_page = 0xFF00 & regPC.value();
+	AND(memory.readByte(post_indexed_indirect(5)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::AND_2D() { AND(memory.readByte(absolute(4))); }
-void CPU::AND_3D() { AND(memory.readByte(absolute_x(4))); }	// Page cross
-void CPU::AND_39() { AND(memory.readByte(absolute_y(4))); }	// Page cross
+void CPU::AND_3D() {
+	u16 before_page = 0xFF00 & regPC.value();
+	AND(memory.readByte(absolute_x(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::AND_39() {
+	u16 before_page = 0xFF00 & regPC.value();
+	AND(memory.readByte(absolute_y(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // EOR (EXLUSIVE OR OPERATION ON ACCUMULATOR)
 
@@ -45,10 +66,22 @@ void CPU::EOR_49() { EOR(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::EOR_45() { EOR(memory.readByte(zero_page(3))); }
 void CPU::EOR_55() { EOR(memory.readByte(zero_page_x(4))); }
 void CPU::EOR_41() { EOR(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::EOR_51() { EOR(memory.readByte(post_indexed_indirect(5))); }	// Page cross
+void CPU::EOR_51() {
+	u16 before_page = 0xFF00 & regPC.value();
+	EOR(memory.readByte(post_indexed_indirect(5)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::EOR_4D() { EOR(memory.readByte(absolute(4))); }
-void CPU::EOR_5D() { EOR(memory.readByte(absolute_x(4))); }	// Page cross
-void CPU::EOR_59() { EOR(memory.readByte(absolute_y(4))); }	// Page cross
+void CPU::EOR_5D() {
+	u16 before_page = 0xFF00 & regPC.value();
+	EOR(memory.readByte(absolute_x(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::EOR_59() {
+	u16 before_page = 0xFF00 & regPC.value();
+	EOR(memory.readByte(absolute_y(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // ADC (Add M to A with carry)
 void CPU::ADC(s8 byte) {
@@ -68,10 +101,22 @@ void CPU::ADC_69() { ADC(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::ADC_65() { ADC(memory.readByte(zero_page(3))); }
 void CPU::ADC_75() { ADC(memory.readByte(zero_page_x(4))); }
 void CPU::ADC_61() { ADC(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::ADC_71() { ADC(memory.readByte(post_indexed_indirect(5))); }	// Page cross
+void CPU::ADC_71() {
+	u16 before_page = 0xFF00 & regPC.value();
+	ADC(memory.readByte(post_indexed_indirect(5)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::ADC_6D() { ADC(memory.readByte(absolute(4))); }
-void CPU::ADC_7D() { ADC(memory.readByte(absolute_x(4))); }	// Page cross
-void CPU::ADC_79() { ADC(memory.readByte(absolute_y(4))); }	// Page cross
+void CPU::ADC_7D() {
+	u16 before_page = 0xFF00 & regPC.value();
+	ADC(memory.readByte(absolute_x(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::ADC_79() {
+	u16 before_page = 0xFF00 & regPC.value();
+	ADC(memory.readByte(absolute_y(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // SBC (Subtract M from A with borrow)
 
@@ -92,10 +137,22 @@ void CPU::SBC_E9() { SBC(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::SBC_E5() { SBC(memory.readByte(zero_page(3))); }
 void CPU::SBC_F5() { SBC(memory.readByte(zero_page_x(4))); }
 void CPU::SBC_E1() { SBC(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::SBC_F1() { SBC(memory.readByte(post_indexed_indirect(5))); }	// Page cross
+void CPU::SBC_F1() {
+	u16 before_page = 0xFF00 & regPC.value();
+	SBC(memory.readByte(post_indexed_indirect(5)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::SBC_ED() { SBC(memory.readByte(absolute(4))); }
-void CPU::SBC_FD() { SBC(memory.readByte(absolute_x(4))); }	// Page cross
-void CPU::SBC_F9() { SBC(memory.readByte(absolute_y(4))); }	// Page cross
+void CPU::SBC_FD() {
+	u16 before_page = 0xFF00 & regPC.value();
+	SBC(memory.readByte(absolute_x(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::SBC_F9() {
+	u16 before_page = 0xFF00 & regPC.value();
+	SBC(memory.readByte(absolute_y(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // CMP (COMPARE M TO A)
 
@@ -109,10 +166,22 @@ void CPU::CMP_C9() { CMP(get_byte_from_pc()); loop_cycles += 2; }
 void CPU::CMP_C5() { CMP(memory.readByte(zero_page(3))); }
 void CPU::CMP_D5() { CMP(memory.readByte(zero_page_x(4))); }
 void CPU::CMP_C1() { CMP(memory.readByte(pre_indexed_indirect(6))); }
-void CPU::CMP_D1() { CMP(memory.readByte(post_indexed_indirect(5))); }	// Page cross
+void CPU::CMP_D1() {
+	u16 before_page = 0xFF00 & regPC.value();
+	CMP(memory.readByte(post_indexed_indirect(5)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 void CPU::CMP_CD() { CMP(memory.readByte(absolute(4))); }
-void CPU::CMP_DD() { CMP(memory.readByte(absolute_x(4))); }	// Page cross
-void CPU::CMP_D9() { CMP(memory.readByte(absolute_y(4))); }	// Page cross
+void CPU::CMP_DD() {
+	u16 before_page = 0xFF00 & regPC.value();
+	CMP(memory.readByte(absolute_x(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
+void CPU::CMP_D9() {
+	u16 before_page = 0xFF00 & regPC.value();
+	CMP(memory.readByte(absolute_y(4)));
+	if (before_page != (0xFF00 & regPC.value())) loop_cycles += 1;
+}
 
 // CPX (COMPARE X WITH M)
 
@@ -229,6 +298,7 @@ void CPU::ROL_2A() {	// Implied (accumulator)
 
 	regStatus.set_carry(newCarry);
 	set_flags_nz(result);
+	loop_cycles += 2;
 }
 
 void CPU::ROL(u16 memory_address) {
@@ -253,6 +323,7 @@ void CPU::LSR_4A() {	// Implied (accumulator)
 	regA.set(result >> 1);
 
 	set_flags_nz(regA.value());
+	loop_cycles += 2;
 }
 
 void CPU::LSR(u16 memory_address) {
@@ -279,6 +350,7 @@ void CPU::ROR_6A() {	// Implied (accumulator)
 
 	regStatus.set_carry(newCarry);
 	set_flags_nz(regA.value());
+	loop_cycles += 2;
 }
 
 void CPU::ROR(u16 memory_address) {
