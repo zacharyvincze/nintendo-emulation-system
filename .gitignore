@@ -2,3 +2,4 @@ bin
 obj
 roms
 nestest.log
+.vscode
